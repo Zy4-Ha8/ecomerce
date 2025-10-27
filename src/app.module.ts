@@ -27,11 +27,11 @@ import { APP_GUARD } from '@nestjs/core';
         url: config.get('DATABASE_URL'),
         autoLoadEntities: true,
         synchronize: true,
+        logging: ['error', 'warn', 'query'],
       }),
     }),
     ThrottlerModule.forRoot({
       throttlers: [
-     
         {
           name: 'extended',
           ttl: 1000 * 60,
