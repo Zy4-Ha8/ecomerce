@@ -24,13 +24,9 @@ import { APP_GUARD } from '@nestjs/core';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
-        host: config.get('DB_HOST'),
-        port: config.get('DB_PORT'),
-        username: config.get('DB_USERNAME'),
-        password: config.get('DB_PASSWORD'),
-        database: config.get('DB_NAME'),
-        entities: [path.join(process.cwd(), 'dist/**/*.entity.js')],
-        synchronize: true,
+        url: config.get('DATABASE_URL'),
+        autoLoadEntities: true,
+        synchronize: false, // disable in production if using migrations
       }),
     }),
     ThrottlerModule.forRoot({
