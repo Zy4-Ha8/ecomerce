@@ -26,7 +26,7 @@ import { APP_GUARD } from '@nestjs/core';
         type: 'postgres',
         url: config.get('DATABASE_URL'),
         autoLoadEntities: true,
-        synchronize: false, // disable in production if using migrations
+        synchronize: true,
       }),
     }),
     ThrottlerModule.forRoot({
