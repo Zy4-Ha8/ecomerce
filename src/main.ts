@@ -14,6 +14,6 @@ async function bootstrap() {
   app.use(mongoSanitize.default());
   app.use(xss.default());
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-  await app.listen(process.env.PORT ?? 5000);
+  await app.listen(process.env.PORT ?? 5000, '0.0.0.0');
 }
 bootstrap();
