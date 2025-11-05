@@ -18,11 +18,14 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { FilterProductDto } from './dto/filter-product.dto';
+import { NoAccout } from 'src/decorators/noAccount.decorator';
+import { Public } from 'src/decorators/IsPublic.decorator';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-
+  @NoAccout()
+  @Public()
   @Post()
   @UseInterceptors(
     FileFieldsInterceptor([
@@ -43,12 +46,14 @@ export class ProductsController {
     const images = files?.images || [];
     return this.productsService.create(createProductDto, thumbnail, images);
   }
-
+  @NoAccout()
+  @Public()
   @Get()
   findAll() {
     return this.productsService.findAll();
   }
-
+  @NoAccout()
+  @Public()
   @Get('pagination')
   findPagination(
     @Query('page', ParseIntPipe) page = 1,
@@ -57,15 +62,20 @@ export class ProductsController {
     console.log('page', page, 'limit', limit);
     return this.productsService.findPagination(page, limit);
   }
-
+  @NoAccout()
+  @Public()
   @Get('search')
   findSearch(@Query('search') search: string) {
     return this.productsService.findSearch(search);
   }
+  @NoAccout()
+  @Public()
   @Get('filter')
   findFilter(@Query() dto: FilterProductDto) {
     return this.productsService.findFilter(dto);
   }
+  @NoAccout()
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);

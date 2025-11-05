@@ -14,6 +14,8 @@ import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { NoAccout } from 'src/decorators/noAccount.decorator';
+import { Public } from 'src/decorators/IsPublic.decorator';
 
 @Controller('categories')
 export class CategoriesController {
@@ -27,28 +29,29 @@ export class CategoriesController {
   ) {
     return this.categoriesService.create(createCategoryDto, file);
   }
-
+  @NoAccout()
+  @Public()
   @Get()
   findAll() {
     return this.categoriesService.findAll();
   }
-
+  @NoAccout()
+  @Public()
   @Get('findById/:id')
   findOne(@Param('id') id: string) {
     return this.categoriesService.findOne(+id);
   }
-
+  @NoAccout()
+  @Public()
   @Get('pagination')
   findPagination(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
-    @Query('search') search: string ,
+    @Query('search') search: string,
   ) {
-    return this.categoriesService.findPagination(+page, +limit , search);
+    return this.categoriesService.findPagination(+page, +limit, search);
   }
 
-  
- 
   @UseInterceptors(FileInterceptor('file'))
   @Put(':id')
   update(
