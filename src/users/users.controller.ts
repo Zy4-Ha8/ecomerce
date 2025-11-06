@@ -9,6 +9,8 @@ import {
   Put,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,6 +22,8 @@ import { UserRole } from 'src/enum/user-role.enum';
 import { Public } from 'src/decorators/IsPublic.decorator';
 import { NoAccout } from 'src/decorators/noAccount.decorator';
 import { VerifyDtoId, VerifyDtoToken } from './dto/verify-user.dto';
+import { AuthGuard } from 'src/auth/guards/jwt.guard';
+import { Request } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -44,7 +48,11 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id, false);
   }
-
+  @Get('profile')
+  @UseGuards(AuthGuard)
+  getProfile(@Req() req) {
+    return this.usersService.findOne(req.user.id, false);
+  }
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
@@ -63,7 +71,7 @@ export class UsersController {
   @NoAccout()
   @Post('verify-otp/:token')
   async verifyOtp(@Body() body: VerifyDtoId, @Param('token') token: string) {
-    await this.usersService.verifyEmail(body.id, token);
+    await this.usersService.verifyEmail(+body.id, token);
     return { status: 'the email has been verified' };
   }
 }
