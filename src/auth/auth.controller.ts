@@ -25,6 +25,7 @@ export class AuthController {
   @Public()
   @Post('login')
   login(@Body() login: Login) {
+    console.log(login);
     return this.authService.login(login);
   }
 }
