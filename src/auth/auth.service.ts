@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { RegistionDto } from './dto/registion.dto';
-import { Login } from './dto/login.dto';
+import {  LoginDto } from './dto/login.dto';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
@@ -32,7 +32,7 @@ export class AuthService {
     return { user, access_token: await this.jwtService.signAsync(payload) };
   }
 
-  async login(login: Login) {
+  async login(login: LoginDto) {
     console.log(login);
     const user = await this.usersService.findOne(login.username, true);
     if (!user) {

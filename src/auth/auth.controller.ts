@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegistionDto } from './dto/registion.dto';
-import { Login } from './dto/login.dto';
+import { LoginDto } from './dto/login.dto';
 import { Public } from '../decorators/IsPublic.decorator';
 import { NoAccout } from 'src/decorators/noAccount.decorator';
 @Controller('auth')
@@ -24,8 +24,8 @@ export class AuthController {
   @NoAccout()
   @Public()
   @Post('login')
-  login(@Body() login: Login) {
-    console.log(login);
+  login(@Body() login: LoginDto) {
+    
     return this.authService.login(login);
   }
 }
