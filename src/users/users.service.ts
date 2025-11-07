@@ -49,6 +49,7 @@ export class UsersService {
   }
 
   async findOne(username: string, selectSecrets?: boolean) {
+    console.log(username);
     const query = this.usersRepo
       .createQueryBuilder('user')
       .where('user.username = :username', { username });
