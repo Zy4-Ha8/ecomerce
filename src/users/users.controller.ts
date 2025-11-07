@@ -51,7 +51,8 @@ export class UsersController {
   @Get('profile')
   @UseGuards(AuthGuard)
   getProfile(@Req() req) {
-    return this.usersService.findOne(req.user.id, false);
+    
+    return this.usersService.findOne(req.user.sub, false);
   }
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
