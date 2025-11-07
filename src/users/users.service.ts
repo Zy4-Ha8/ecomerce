@@ -49,22 +49,15 @@ export class UsersService {
   }
 
   async findOne(username: string, selectSecrets?: boolean) {
-    return await this.usersRepo.findOne({
-      where: { username },
-      select: {
-        id: true,
-        name: true,
-        username: true,
-        email: true,
-        role: true,
-        userAvatar: true,
-        emailVerifiedAt: true,
-        accountStatus: true,
-        password: selectSecrets,
-      },
-    });
+    const query = this.usersRepo
+      .createQueryBuilder('user')
+      .where('user.username = :username', { username });
+    if (selectSecrets) {
+      query.addSelect('user.password');
+    }
+    return await query.getOne();
   }
-    async findOneById(id:number, selectSecrets?: boolean) {
+  async findOneById(id: number, selectSecrets?: boolean) {
     return await this.usersRepo.findOne({
       where: { id },
       select: {

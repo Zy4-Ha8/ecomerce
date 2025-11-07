@@ -34,7 +34,7 @@ export class AuthService {
 
   async login(login: Login) {
     const user = await this.usersService.findOne(login.username, true);
-    if (!user || !user.id) {
+    if (!user ) {
       throw new BadRequestException('the user not found');
     }
     const isMatch = await bcrypt.compare(login.password, String(user.password));
