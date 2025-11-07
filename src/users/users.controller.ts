@@ -44,15 +44,14 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id, false);
-  }
   @Get('profile')
   @UseGuards(AuthGuard)
   getProfile(@Req() req) {
-    
     return this.usersService.findOneById(req.user.sub, false);
+  }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOne(id, false);
   }
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
