@@ -52,7 +52,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   getProfile(@Req() req) {
     
-    return this.usersService.findOne(req.user.sub, false);
+    return this.usersService.findOneById(req.user.sub, false);
   }
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

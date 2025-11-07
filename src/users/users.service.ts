@@ -64,6 +64,22 @@ export class UsersService {
       },
     });
   }
+    async findOneById(id:number, selectSecrets?: boolean) {
+    return await this.usersRepo.findOne({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        email: true,
+        role: true,
+        userAvatar: true,
+        emailVerifiedAt: true,
+        accountStatus: true,
+        password: selectSecrets,
+      },
+    });
+  }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const currentUser = await this.usersRepo.findOneBy({ id });
