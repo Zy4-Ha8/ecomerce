@@ -16,7 +16,7 @@ export class AuthService {
       false,
     );
     if (isExist) {
-      return new BadRequestException(
+      throw new BadRequestException(
         `The username ${isExist.username} has been taken`,
       );
     }
@@ -29,13 +29,13 @@ export class AuthService {
       emailVerifiedAt: user.emailVerifiedAt,
     };
 
-    return { user, access_toekn: await this.jwtService.signAsync(payload) };
+    return { user, access_token: await this.jwtService.signAsync(payload) };
   }
 
   async login(login: Login) {
     const user = await this.usersService.findOne(login.username, true);
-    if (!user) {
-      throw new BadRequestException('the user note found');
+    if (!user || !user.id) {
+      throw new BadRequestException('the user not found');
     }
     const isMatch = await bcrypt.compare(login.password, String(user.password));
     if (!isMatch) {
