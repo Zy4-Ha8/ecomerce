@@ -31,6 +31,7 @@ export class UsersController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
+  @Roles(UserRole.ADMIN)
   create(
     @Body() createUserDto: CreateUserDto,
     @UploadedFile() file: Express.Multer.File,
@@ -49,15 +50,17 @@ export class UsersController {
   getProfile(@Req() req) {
     return this.usersService.findOneById(req.user.sub, false);
   }
+  @Roles(UserRole.ADMIN)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id, false);
   }
+  @Roles(UserRole.ADMIN)
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
-
+  @Roles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
