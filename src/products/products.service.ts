@@ -158,7 +158,6 @@ export class ProductsService {
       query.andWhere('CAST(product.discountPrice AS FLOAT) = 0');
     }
 
-    
     if (dto.minDiscountPrice) {
       query.andWhere('product.discountPrice > :minDiscountPrice', {
         minDiscountPrice: dto.minDiscountPrice,

@@ -55,7 +55,7 @@ export class CategoriesService {
     }
 
     const [data, total] = await queryBuilder
-      .skip(page - 1)
+      .skip((page - 1) * limit)
       .take(limit)
       .orderBy('category.created_at', 'DESC')
       .getManyAndCount();

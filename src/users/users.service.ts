@@ -57,9 +57,9 @@ export class UsersService {
     }
 
     const [data, total] = await queryBuilder
-      .skip(page - 1)
+      .skip((page - 1) * limit)
       .take(limit)
-      .orderBy('user.id', 'DESC')
+      .orderBy('user.id', 'ASC')
       .getManyAndCount();
     return {
       currentPage: page,
