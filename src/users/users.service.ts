@@ -47,10 +47,30 @@ export class UsersService {
   async findAll() {
     return await this.usersRepo.find();
   }
+  async findPagination(page: number, limit: number, search?: string) {
+    const queryBuilder = this.usersRepo.createQueryBuilder('user');
+    if (search) {
+      queryBuilder.where(
+        'LOWER(user.name) LIKE :search OR LOWER(user.username) LIKE :search OR LOWER(user.email) LIKE :search',
+        { search: `%${search.toLocaleLowerCase()}%` },
+      );
+    }
 
+    const [data, total] = await queryBuilder
+      .skip(page - 1)
+      .take(limit)
+      .orderBy('user.created_at', 'DESC')
+      .getManyAndCount();
+    return {
+      currentPage: page,
+      totalItem: total,
+      totalPage: Math.ceil(total / limit),
+      data,
+    };
+  }
   async findOne(username: string, selectSecrets?: boolean) {
     console.log(username);
-  
+
     const query = this.usersRepo
       .createQueryBuilder('user')
       .where('user.username = :username', { username });

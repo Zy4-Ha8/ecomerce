@@ -11,6 +11,7 @@ import {
   UploadedFile,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -43,6 +44,15 @@ export class UsersController {
   @Get()
   findAll() {
     return this.usersService.findAll();
+  }
+  @Roles(UserRole.ADMIN)
+  @Get('pagination')
+  findPagination(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query('search') search: string,
+  ) {
+    return this.usersService.findPagination(+page, +limit, search);
   }
 
   @Get('profile')
