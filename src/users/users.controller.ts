@@ -61,9 +61,9 @@ export class UsersController {
     return this.usersService.findOneById(req.user.sub, false);
   }
   @Roles(UserRole.ADMIN)
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id, false);
+  @Get(':username')
+  findOne(@Param('username') username: string) {
+    return this.usersService.findOne(username, false);
   }
   @Roles(UserRole.ADMIN)
   @Put(':id')
