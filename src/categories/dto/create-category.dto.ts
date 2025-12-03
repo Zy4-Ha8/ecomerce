@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsBoolean, IsObject, IsOptional, IsString } from 'class-validator';
 import { isUnique } from 'src/decorators/isUnique/isUnique';
 
@@ -15,5 +16,11 @@ export class CreateCategoryDto {
 
   @IsBoolean()
   @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      return value.toLowerCase() === 'true';
+    }
+    return value;
+  })
   is_active?: boolean;
 }
